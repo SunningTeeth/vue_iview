@@ -2,21 +2,56 @@ const path = require("path")
 
 const webpackHtmlPlugin = require("html-webpack-plugin")
 
+const vueLoaderPlugin = require("vue-loader/lib/plugin")
+
 module.exports = {
 
-  entry:path.join(__dirname,'./src/main.js'),
+  entry: path.join(__dirname, './src/main.js'),
 
-  output:{
-    path:path.join(__dirname,"./dist"),
+  output: {
+    path: path.join(__dirname, "./dist"),
 
-    filename:"bundle.js"
+    filename: "bundle.js"
   },
-  plugins:[
+  plugins: [
     new webpackHtmlPlugin({
-      template:"./src/index.html",
-      filename:"index.html"
-    })
-  ]
+      template: "./src/index.html",
+      filename: "index.html"
+    }),
+    new vueLoaderPlugin()
+  ],
+  module: {
+    rules: [
+      //匹配 .css文件
+      { test: /\.css$/, use: ['style-loader', "css-loader"] },
+
+      //匹配 .scss文件
+      { test: /\.scss$/, use: ["style-loader", "css-loader", "sass-loader"] },
+
+      //配置图片路径的loader
+      { test: /\.(jpg|png|gif|bmp|jpeg)$/, use: "url-loader?limit=7918&name=[hash:8]-[name].[ext]" },
+      //limit给定的值是图片的大小，单位是字节（byte）,如果我们引用的图片，大于或者等于给
+      //定的limit值，则会被不会被转为base64格式的字符串，如果图片小于给定的limit值，
+      //则会被转换为base64的字符串
+
+      //name=[hash:8]-[name].[ext]
+      //[hash:8]表示需要用几位hash值----》（这个是为了防止图片重名的情况，hash值最大是32位，这里8就表示截取前8位）
+      //[name]这个表示图片的名字，就是当前图片的名字
+      //.[ext]表示图片是什么后缀名，这个就是什么后缀名
+
+      //配置字体图标  注意：bootstrap4.x中将字体图片抽离了
+      { test: /\.(ttf|woff|woff2|svg|eot)$/, use: "url-loader" },
+
+      //匹配 .vue 文件
+      {test:/\.vue$/,use:["vue-loader"]}
+    ]
+  },
+  resolve: {
+    //解决引入vue只是runtime的问题
+    alias: {
+        "vue$": "vue/dist/vue.js"
+    }
+}
 
 
 }
