@@ -1,0 +1,26 @@
+{
+  "name": "vue_iview",
+  "version": "1.0.0",
+  "description": "博客采用vue全家桶+iview",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "dev": "webpack-dev-server --port 9999 --hot --contentBase src "
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daijiabao/vue_iview.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/daijiabao/vue_iview/issues"
+  },
+  "homepage": "https://github.com/daijiabao/vue_iview#readme",
+  "devDependencies": {
+    "html-webpack-plugin": "^3.2.0",
+    "webpack-dev-server": "^3.3.1"
+  }
+}
